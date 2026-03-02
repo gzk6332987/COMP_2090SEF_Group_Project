@@ -3,8 +3,13 @@ from rich import print
 
 from core.vocabulary import Vocabulary
 from core.training import train as inner_train
+from pathlib import Path
 
 app = typer.Typer(rich_markup_mode="rich")
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+data_dir = PROJECT_ROOT / "data"
+data_dir.mkdir(exist_ok=True)
 
 @app.command()
 def add(
@@ -37,12 +42,12 @@ def search(word: str):
 @app.command()
 def train(
     epoch: int = typer.Option(512, help="Training Epoch you want"),
-    skip_vocab: bool = typer.Option(False, "--skip-vocab", help="是否跳過詞典構建")
+    skip_vocab: bool = typer.Option(False, "--skip-vocab", help="If skip build vocabulary database")
 ):
     """
     [bold green]Start training. (This is time consuming and your computer must heat up!)[/bold green]
     """
-    print(f"[cyan]開始訓練: {epoch} epochs, skip_vocab={skip_vocab}[/cyan]")
+    print(f"[cyan]Start training: {epoch} epochs, skip_vocab={skip_vocab}[/cyan]")
     inner_train(epoch, skip_vocab)
 
 if __name__ == "__main__":

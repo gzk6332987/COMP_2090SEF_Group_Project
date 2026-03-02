@@ -43,7 +43,6 @@ if __name__ == "__main__":
     
     vocab = Vocabulary()
     
-    # 1. 關鍵修復：先加載 state_dict，檢查它當初保存時的大小
     state_dict = torch.load(model_filepath, weights_only=True)
     example_word_vec = text_to_fixed_tensor("bad", vocab, False).unsqueeze(0)
     
@@ -52,6 +51,6 @@ if __name__ == "__main__":
     net.load_state_dict(state_dict)
     net.eval()
     
-    with torch.no_grad(): # 推理時建議關閉梯度
+    with torch.no_grad():
         result = net(example_word_vec)
         print(f"Reasoning result: {result}")
