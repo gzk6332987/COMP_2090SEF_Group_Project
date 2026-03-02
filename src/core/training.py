@@ -42,7 +42,7 @@ class MovieCommentsDataset(torch.utils.data.Dataset):
         emotion = int(row["emotion"])
         
         # There will auto add new words to vocabulary if this is true
-        text_tensor = text_to_fixed_tensor(text, self.vocabulary, True)
+        text_tensor = text_to_fixed_tensor(text, self.vocabulary, False)
         
         return text_tensor, torch.tensor(emotion, dtype=torch.long)
     
@@ -51,13 +51,12 @@ def train(optimizer_type: str, training_epoch: int = 512, skip_build_vocabulary=
     total_loss_list = []
     # select GPU training if possible (NVIDIA GPU only)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    vocab = Vocabulary()
+    vocabulary = Vocabulary()
     
     # prepare dataset
     print("[red]Prepare dataset, This might take a long time (about 10 minutes if not skip build vocabulary)![/red]")
     print("[red]Prepare dataset, This might take a long time (about 10 minutes if not skip build vocabulary)![/red]")
     print("[red]Prepare dataset, This might take a long time (about 10 minutes if not skip build vocabulary)![/red]")
-    vocabulary = Vocabulary()
     
     # TODO mind the test mode here! do not turn it on in latest release version
     train_dataset = MovieCommentsDataset(vocabulary, test_mode)
@@ -66,7 +65,7 @@ def train(optimizer_type: str, training_epoch: int = 512, skip_build_vocabulary=
         # add all text's words into vocabulary database
         df = pd.read_csv(PROJECT_ROOT / CSV_DATASET_FILENAME)
         for text in tqdm.tqdm(df["text"]):
-            add_to_vocabulary_db(clean_text(text), vocab)
+            add_to_vocabulary_db(clean_text(text), vocabulary)
         
         del df
     else:
@@ -76,7 +75,7 @@ def train(optimizer_type: str, training_epoch: int = 512, skip_build_vocabulary=
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=32, shuffle=True, num_workers=0)
     
     # create model, optimizer and criterion
-    model = TextEmotionClassificationNetwork(vocab, 128, 256, 2).to(device)
+    model = TextEmotionClassificationNetwork(vocabulary, 128, 256, 2).to(device)
     if optimizer_type == "adam":
         optimizer = optim.Adam(model.parameters(), lr=0.01)
     elif optimizer_type == "adadelta":
@@ -103,7 +102,7 @@ def train(optimizer_type: str, training_epoch: int = 512, skip_build_vocabulary=
             optimizer.zero_grad()
             output = model(tensor_text)
             loss = criterion(output, label)
-            epoch_total_loss += loss
+            epoch_total_loss += loss.item()
             loss.backward()
             optimizer.step()
             

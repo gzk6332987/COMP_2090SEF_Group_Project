@@ -20,5 +20,6 @@ class Inference:
         # mind to disable train mode in inference mode
         text_tensor = text_to_fixed_tensor(clean_text(text), self.vocabulary, False)
         result = self.model.forward(text_tensor)
+        print(result)
         # TODO not completed
         print("[cyan]result have been calculated![/cyan]")

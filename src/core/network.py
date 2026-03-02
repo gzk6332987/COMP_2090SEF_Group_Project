@@ -22,19 +22,30 @@ class TextEmotionClassificationNetwork(nn.Module):
         
         self.vocabulary_size = vocabulary.size()
         
-        # ========== create model layer there ==========
-        # create embedded bag with mean mode
-        self.l_embedding    = nn.Embedding(self.vocabulary_size, embed_dim)
-        self.l_lstm         = nn.LSTM(embed_dim, hidden_dim_1, batch_first=True, num_layers=1, bidirectional=True)
-        self.l_fc           = nn.Linear(hidden_dim_1, num_class)
+        # 1. Embedding
+        self.l_embedding = nn.Embedding(self.vocabulary_size, embed_dim)
+        
+        # 2. LSTM (Bidirectional)
+        self.l_lstm = nn.LSTM(embed_dim, hidden_dim_1, batch_first=True, num_layers=1, bidirectional=True)
+        
+        self.l_fc = nn.Linear(hidden_dim_1 * 2, num_class)
     
     def forward(self, text_vector: torch.Tensor):
-        embedded = self.l_embedding(text_vector)
+        # 1. Embedding layer
+        embedded = self.l_embedding(text_vector) 
+        
+        # 2. LSTM layer
+        # hn shape: (num_layers * num_directions, batch, hidden_dim)
+        # For bidirectional=True and num_layers=1, hn shape is (2, batch, 256)
         output, (hn, cn) = self.l_lstm(embedded)
         
-        # Get last hidden state as text features
-        last_hidden = hn[-1]
-        return self.l_fc(last_hidden)
+        # 3. Concatenate the two directions
+        # hn[0] is the forward pass, hn[1] is the backward pass
+        # Resulting shape: (batch, hidden_dim * 2) -> (batch, 512)
+        cat_hidden = torch.cat((hn[0], hn[1]), dim=1)
+        
+        # 4. Final Linear Layer
+        return self.l_fc(cat_hidden)
     
     
 if __name__ == "__main__":

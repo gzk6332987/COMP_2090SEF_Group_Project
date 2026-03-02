@@ -14,13 +14,12 @@ def check_cuda_status():
         rprint("[yellow]You can search online learn how to enable[/yellow]")
         return torch.device("cpu")
 
-    # 2. 獲取設備信息
+    # get device info
     device_id = torch.cuda.current_device()
     device_name = torch.cuda.get_device_name(device_id)
     cuda_version = torch.version.cuda
     
-    # 3. 獲取顯存狀態 (以 GB 為單位)
-    # 使用 torch.cuda.mem_get_info() 獲取實時數據 [PyTorch Docs]
+    # get memory state
     free_mem, total_mem = torch.cuda.mem_get_info(device_id)
     free_gb = free_mem / 1024**3
     total_gb = total_mem / 1024**3
@@ -30,6 +29,6 @@ def check_cuda_status():
     rprint(f"   - CUDA version: [yellow]{cuda_version}[/yellow]")
     rprint(f"   - CUDA memory: [blue]{free_gb:.2f}GB[/blue] / {total_gb:.2f}GB (useable/total)")
 
-    # 4. 針對 Python 3.14 的特殊警告
+    # warning for low memory user
     if torch.cuda.get_device_capability(device_id)[0] < 7:
         rprint("[yellow]⚠️ Warning: Your GPU has limited computing power; training an 800-word LSTM may be slow.[/yellow]")
