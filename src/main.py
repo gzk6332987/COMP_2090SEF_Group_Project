@@ -50,6 +50,29 @@ def train(
     print(f"[cyan]Start training: {epoch} epochs, skip_vocab={skip_vocab}[/cyan]")
     inner_train(epoch, skip_vocab)
 
+@app.command()
+def infer(
+    text = typer.Option(None, "--text", help="The text you want to infer emotion (MUST be english)"),
+    file = typer.Option(None, "--file", help="The file you want to infer emotion (MUST be english)")
+):
+    if text is None and file is None:
+        print("[bold red]--text or --file can not be empty![/bold red]")
+        return
+    if file is not None and text is not None:
+        print("[bold red]--text and --file conflict with each other![/bold red]")
+        return
+    
+    if file is not None:
+        try:
+            with open(file, "r") as f:
+                text = f.read()
+        except FileNotFoundError:
+            print(f"[bold red]No Such file with path {file}[/bold red]")
+
+    print(f"[gree]WE have received your text, start performing inference[/gree]")
+
+        
+
 if __name__ == "__main__":
     app()
 

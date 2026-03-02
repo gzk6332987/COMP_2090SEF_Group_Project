@@ -92,6 +92,7 @@ def train(training_epoch: int = 512, skip_build_vocabulary=False):
             
         epoch_pbar.set_postfix(loss=str(epoch_total_loss))
         
+        print(f"[blue]Save model with loss {epoch_total_loss}[/blue]")
         save_model(model, f"data/model_with_loss_{epoch_total_loss}.model")
         
     # save last model parameters
