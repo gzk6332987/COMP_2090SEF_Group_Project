@@ -1,13 +1,19 @@
 import shelve
 from pathlib import Path
+from rich import print
 
 class Vocabulary:
     def __init__(self) -> None:
         root_dir = Path(__file__).resolve().parent.parent.parent
-        db_path = root_dir / "vocabulary" / "vocab_db"
+        db_path = root_dir / "data" / "vocab_db"
         
         db_path.parent.mkdir(parents=True, exist_ok=True)
         self.db = shelve.open(str(db_path))
+        
+        # make sure 0 must be <UNKNOWN>
+        # make sure 1 must be <PAD>
+        self.db["<UNKNOWN>"] = 0
+        self.db["<PAD>"] = 1
     
     def add_word(self, word: str) -> int:
         """_summary_
@@ -22,7 +28,7 @@ class Vocabulary:
         word = word.strip().lower()
         
         if not word:
-            return -1
+            return 0  # This is <UNKNOWN> means this word is not in database!
         
         if word not in self.db:
             current_index = len(self.db.keys())
@@ -42,7 +48,7 @@ class Vocabulary:
         """
         word = word.strip().lower()
         if word not in self.db.keys():
-            return -1
+            return 0
         else:
             return self.db[word]
     
@@ -56,3 +62,4 @@ class Vocabulary:
 # test only
 if __name__ == "__main__":
     vocab = Vocabulary()
+    print(f"size of vocabulary: {vocab.size()}")

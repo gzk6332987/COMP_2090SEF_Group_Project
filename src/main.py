@@ -2,6 +2,7 @@ import typer
 from rich import print
 
 from core.vocabulary import Vocabulary
+from core.training import train as inner_train
 
 app = typer.Typer(rich_markup_mode="rich")
 
@@ -30,7 +31,22 @@ def search(word: str):
     """
     [bold blue]Search an index of a word[/bold blue]
     """
-    print(f"Result: {word}")
+    vocabulary = Vocabulary()
+    print(f"Result: {vocabulary.search_word(word)}")
+    
+@app.command()
+def train(
+    epoch: int = typer.Option(512, help="Training Epoch you want"),
+    skip_vocab: bool = typer.Option(False, "--skip-vocab", help="是否跳過詞典構建")
+):
+    """
+    [bold green]Start training. (This is time consuming and your computer must heat up!)[/bold green]
+    """
+    print(f"[cyan]開始訓練: {epoch} epochs, skip_vocab={skip_vocab}[/cyan]")
+    inner_train(epoch, skip_vocab)
 
 if __name__ == "__main__":
     app()
+
+else:
+    print("WARNING: you can not run or import src/main.py in other python file")
