@@ -106,6 +106,13 @@ Classify emotions by providing a string directly or reading from a text file. **
 - Via Direct Text: `python src/main.py infer --text "I am feeling absolutely wonderful today!"`
 - Via Text File: `python src/main.py infer --file "./my_story.txt"`
 
+**Positive example**
+
+![pos](markdown_resource/positive_inference.png)
+
+**Negative example**
+
+![neg](markdown_resource/negative_inference.png)
 
 ### 🥊 Training Model
 
