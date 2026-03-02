@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io" alt="Python Version">
+  <img src="https://img.shields.io/badge/language-python3.10.0%2B-orange" alt="Python Version">
   <img src="https://img.shields.io/badge/course-2090SEF-yellow" alt="course">
   <img src="https://img.shields.io/badge/project_kind-NLP-green" alt="NLP">
 </p>
