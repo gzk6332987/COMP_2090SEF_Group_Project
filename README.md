@@ -5,6 +5,10 @@
   <em>Hong Kong Metropolitan University (HKMU)</em>
 </p>
 
+<p align="center">
+  <img src="markdown_resource/logo.png" width="50%">
+</p>
+
 <!-- Tiny Picture to decorate it -->
 <p align="center">
   <img src="https://img.shields.io/badge/language-python3.10.0%2B-orange" alt="Python Version">

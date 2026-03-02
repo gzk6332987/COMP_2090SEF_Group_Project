@@ -31,17 +31,12 @@ class TextEmotionClassificationNetwork(nn.Module):
         self.l_fc = nn.Linear(hidden_dim_1 * 2, num_class)
     
     def forward(self, text_vector: torch.Tensor):
-        # 1. Embedding layer
+        # Embedding layer
         embedded = self.l_embedding(text_vector) 
         
-        # 2. LSTM layer
-        # hn shape: (num_layers * num_directions, batch, hidden_dim)
-        # For bidirectional=True and num_layers=1, hn shape is (2, batch, 256)
+        # LSTM layer
         output, (hn, cn) = self.l_lstm(embedded)
         
-        # 3. Concatenate the two directions
-        # hn[0] is the forward pass, hn[1] is the backward pass
-        # Resulting shape: (batch, hidden_dim * 2) -> (batch, 512)
         cat_hidden = torch.cat((hn[0], hn[1]), dim=1)
         
         # 4. Final Linear Layer

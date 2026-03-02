@@ -28,6 +28,7 @@ def add(
 def dbsize():
     """
     [bold green]Get the total word database size[/bold green]
+    (It grows faster than I expected... :> )
     """
     vocab = Vocabulary()
     size = vocab.size()
