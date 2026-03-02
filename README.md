@@ -15,11 +15,11 @@
 ---
 
 ## 📌 Project Overview
-This application performs **Real-time Emotion Classification** on text input. Using a Deep Learning model built with **PyTorch**, the system can detect subtle emotional states such as **Joy, Sadness, Anger, and Fear** from user-provided sentences.
+This application performs **Real-time Emotion Classification** on text input. Using a Deep Learning model built with **PyTorch** with dataset `IMDb 50K Movie Reviews Dataset`(Open Source), the system can detect subtle emotional states **Positive** and **Negative** from user-provided sentences.
 
 ### ✨ Key Features
 - **Real-time Inference:** Immediate emotion detection from raw text.
-- **Persistent Storage:** Uses `shelve` for efficient data handling.
+- **Persistent Storage:** Uses `shelve` for efficient persistent data handling.
 - **Hardware Acceleration:** Full support for **CUDA** (NVIDIA GPUs) for faster processing.
 
 ---
@@ -38,22 +38,29 @@ This application performs **Real-time Emotion Classification** on text input. Us
 ---
 
 ## 🏗️ System Architecture & OOP Design
-<!-- To satisfy course requirements, this project strictly adheres to **Object-Oriented Programming (OOP)** principles:
-
-- **Encapsulation (`data_processor.py`):** The `TextPreprocessor` class manages internal state for cleaning and hashing logic, exposing only necessary methods.
-- **Inheritance (`model.py`):** Our `EmotionClassifier` extends `torch.nn.Module`, leveraging PyTorch’s robust neural network framework.
-- **Abstraction (`app_engine.py`):** High-level API that allows users to perform classification without managing tensors or weight matrices.
-- **Modularity:** The codebase is decoupled into 3+ distinct modules for scalability. -->
 ```
+(venv) felix@archlinux COMP_2090SEF_Group_Project ±|main✔|→ tree -I venv
 .
-├── data/                  # Persistent storage (Models & Vocab DB)
-├── src/
-│   ├── main.py            # Application Entry Point
-│   └── core/              # Logic Layer (The "Brain")
-│       ├── network.py     # Neural Network Definitions
-│       ├── vocabulary.py  # Word Mapping Logic
-│       └── inference.py   # Prediction Logic
-└── training_dataset/      # Source CSV data
+├── data
+│   ├── model
+│   ├── model_with_loss_40.609799617595854.model
+│   ├── model_with_loss_57.27369132937747.model
+│   └── vocab_db
+├── LICENSE
+├── markdown_resource             # Folder used to store markdown images
+├── README.md                     # README markdown file
+├── requirements.txt              # Python dependencies list
+├── src     
+│   ├── core      
+│   │   ├── inference.py          # Class Inference defined here to do emotion classification
+│   │   ├── network.py            # Class TextEmotionClassificationNetwork defined here to describe the neural network structure
+│   │   ├── text_preprocess.py    # Separate functions defined here to preprocess user input text or file 
+│   │   ├── training.py           # Train function defined here to training the model
+│   │   ├── utils.py              # Some useful shared(within core) functions defined here
+│   │   └── vocabulary.py         # Class Vocabulary defined here response to serialization words
+│   └── main.py                   # The entry of entire program
+└── training_dataset              # raw training dataset folder
+    └── processed.csv             # Provided by `IMDb 50K Movie Reviews Dataset`
 ```
 ---
 
@@ -67,7 +74,7 @@ This application performs **Real-time Emotion Classification** on text input. Us
 ### 2. Setup (Windows/macOS/Linux)
 ```bash
 # Clone the repository
-git clone https://github.com
+git https://github.com/gzk6332987/COMP_2090SEF_Group_Project.git
 cd COMP_2090SEF_Group_Project
 
 # Create and activate virtual environment
@@ -79,7 +86,7 @@ python -m venv venv
 python3 -m venv venv
 source venv/bin/activate
 
-# Install dependencies
+# Install dependencies (It might take a while, please wait in patience)
 pip install -r requirements.txt
 ```
 

@@ -61,7 +61,7 @@ def infer(
     file = typer.Option(None, "--file", help="The file you want to infer emotion (MUST be english)")
 ):
     """
-    [bold red]][/bold red]
+    [bold red]Infer a text or file content emotion and get precise report[/bold red]
     """
     if text is None and file is None:
         print("[bold red]--text or --file can not be empty![/bold red]")
