@@ -3,7 +3,7 @@ from rich import print
 
 from core.vocabulary import Vocabulary
 from core.training import train as inner_train
-from core.inference import Inference
+from core.inference import Inference, print_pretty_analysis
 from core.utils import check_cuda_status
 from pathlib import Path
 
@@ -60,6 +60,9 @@ def infer(
     text = typer.Option(None, "--text", help="The text you want to infer emotion (MUST be english)"),
     file = typer.Option(None, "--file", help="The file you want to infer emotion (MUST be english)")
 ):
+    """
+    [bold red]][/bold red]
+    """
     if text is None and file is None:
         print("[bold red]--text or --file can not be empty![/bold red]")
         return
@@ -76,8 +79,8 @@ def infer(
 
     print(f"[green]WE have received your text, start performing inference, it might take a while if your computer don't support cuda[/green]")
     inference = Inference()
-    infer_result = inference.infer(text)
-    print(infer_result)
+    raw_tensor_result, infer_result = inference.infer(text)
+    print_pretty_analysis(infer_result, raw_tensor_result)
 
 @app.command()
 def cudatest():
