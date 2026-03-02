@@ -1,10 +1,11 @@
-<h1 align="center">🧠 Text Emotion Classification App (PyTorch)</h1>
+<h1 align="center">🧠🧠 Text Emotion Classification 🧠🧠</h1>
 
 <p align="center">
   <strong>COMP2090SEF Group Project</strong><br>
   <em>Hong Kong Metropolitan University (HKMU)</em>
 </p>
 
+<!-- Tiny Picture to decorate it -->
 <p align="center">
   <img src="https://img.shields.io/badge/language-python3.10.0%2B-orange" alt="Python Version">
   <img src="https://img.shields.io/badge/course-2090SEF-yellow" alt="course">
@@ -15,7 +16,7 @@
 ---
 
 ## 📌 Project Overview
-This application performs **Real-time Emotion Classification** on text input. Using a Deep Learning model built with **PyTorch** with dataset `IMDb 50K Movie Reviews Dataset`(Open Source), the system can detect subtle emotional states **Positive** and **Negative** from user-provided sentences.
+This application performs **Real-time Emotion Classification** on text input. Using a Deep Learning model built with **PyTorch** with dataset `b 50K Movie Reviews Dataset`(free to use in academic and non-commercial activity), the system can detect subtle emotional states **Positive** and **Negative** from user-provided sentences.
 
 ### ✨ Key Features
 - **Real-time Inference:** Immediate emotion detection from raw text.
@@ -37,7 +38,7 @@ This application performs **Real-time Emotion Classification** on text input. Us
 
 ---
 
-## 🏗️ System Architecture & OOP Design
+## 🏗️ Filesystem Architecture Overview
 ```
 (venv) felix@archlinux COMP_2090SEF_Group_Project ±|main✔|→ tree -I venv
 .
@@ -93,15 +94,18 @@ pip install -r requirements.txt
 
 # 🚀 Usage Tutorial (CLI Commands)
 
-This application features a professional Command Line Interface (CLI) powered by **Typer** and **Rich**. Execute all commands from the project root.
+This application use well decorate Command Line Interface (CLI) powered by **Typer** and **Rich** (two python lib). **Attention, execute all commands from the project root**.
 
 ### 🧰 Hardware & System Check
-Verify if your system supports **NVIDIA GPU acceleration (CUDA)** for faster training and inference:
+Verify if your system supports **NVIDIA GPU acceleration (CUDA)** for faster training and inference, if your computer do not have NVIDIA GPU, please ignore this section, if your computer have NVIDIA GPU but do not support CUDA, we recommend you search online and find out what to do to enable CUDA.
+
 ```bash
 python src/main.py cudatest
 ```
 
 ### ❓ Build in help with `--help`
+
+`your_commands --help` is a useful tool to learn how to use a command, you can get detailed description and argument notation from here.
 
 ![help_page](markdown_resource/help_page.png)
 
@@ -110,8 +114,8 @@ python src/main.py cudatest
 
 Classify emotions by providing a string directly or reading from a text file. **Note: Only English text is supported.**
 
-- Via Direct Text: `python src/main.py infer --text "I am feeling absolutely wonderful today!"`
-- Via Text File: `python src/main.py infer --file "./my_story.txt"`
+- Detect From Direct Text: `python src/main.py infer --text "I am feeling absolutely wonderful today!"`
+- Detect From Text File: `python src/main.py infer --file "./my_story.txt"`
 
 **Positive example**
 
