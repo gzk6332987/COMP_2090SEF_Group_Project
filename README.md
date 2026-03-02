@@ -6,6 +6,13 @@ It is a Python-based application that performs **Real-time Emotion Classificatio
 
 ---
 
+![help_page](markdown_resource/help_page.png)
+
+![cuda_test](markdown_resource/cuda_test.png)
+
+
+---
+
 ## 🛠️ Technical Stack
 - **Language:** Recommend Python 3.10+ (We can't make sure this program can run in low python version)
 - **Deep Learning Framework:** PyTorch
@@ -46,3 +53,4 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install required packages
 pip install -r requirements.txt
+

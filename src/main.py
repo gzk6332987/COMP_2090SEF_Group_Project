@@ -3,6 +3,8 @@ from rich import print
 
 from core.vocabulary import Vocabulary
 from core.training import train as inner_train
+from core.inference import Inference
+from core.utils import check_cuda_status
 from pathlib import Path
 
 app = typer.Typer(rich_markup_mode="rich")
@@ -41,14 +43,17 @@ def search(word: str):
     
 @app.command()
 def train(
+    optimizer_type: str = typer.Option("adadelta", help="The optimizer you want to use"),
     epoch: int = typer.Option(512, help="Training Epoch you want"),
-    skip_vocab: bool = typer.Option(False, "--skip-vocab", help="If skip build vocabulary database")
+    skip_vocab: bool = typer.Option(False, "--skip-vocab", help="If skip build vocabulary database"),
+    show_chart: bool = typer.Option(False, "--show-chart", help="Enable to show total loss chart at the end of training"),
+    test_mode: bool = typer.Option(False, "--test-mode", help="Enable to reduce training dataset")
 ):
     """
     [bold green]Start training. (This is time consuming and your computer must heat up!)[/bold green]
     """
     print(f"[cyan]Start training: {epoch} epochs, skip_vocab={skip_vocab}[/cyan]")
-    inner_train(epoch, skip_vocab)
+    inner_train(optimizer_type, epoch, skip_vocab, show_chart, test_mode)
 
 @app.command()
 def infer(
@@ -70,10 +75,18 @@ def infer(
             print(f"[bold red]No Such file with path {file}[/bold red]")
 
     print(f"[gree]WE have received your text, start performing inference[/gree]")
+    inference = Inference()
+    inference.infer(text)
 
-        
+@app.command()
+def cudatest():
+    """
+    [bold purple]Check your computer CUDA (GPU acceleration) support status[/bold purple]
+    """
+    check_cuda_status()
 
 if __name__ == "__main__":
+    
     app()
 
 else:

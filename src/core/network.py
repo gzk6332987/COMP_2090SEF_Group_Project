@@ -25,7 +25,7 @@ class TextEmotionClassificationNetwork(nn.Module):
         # ========== create model layer there ==========
         # create embedded bag with mean mode
         self.l_embedding    = nn.Embedding(self.vocabulary_size, embed_dim)
-        self.l_lstm         = nn.LSTM(embed_dim, hidden_dim_1, batch_first=True, num_layers=1)
+        self.l_lstm         = nn.LSTM(embed_dim, hidden_dim_1, batch_first=True, num_layers=1, bidirectional=True)
         self.l_fc           = nn.Linear(hidden_dim_1, num_class)
     
     def forward(self, text_vector: torch.Tensor):
