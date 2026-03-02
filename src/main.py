@@ -74,9 +74,10 @@ def infer(
         except FileNotFoundError:
             print(f"[bold red]No Such file with path {file}[/bold red]")
 
-    print(f"[gree]WE have received your text, start performing inference[/gree]")
+    print(f"[green]WE have received your text, start performing inference, it might take a while if your computer don't support cuda[/green]")
     inference = Inference()
-    inference.infer(text)
+    infer_result = inference.infer(text)
+    print(infer_result)
 
 @app.command()
 def cudatest():
